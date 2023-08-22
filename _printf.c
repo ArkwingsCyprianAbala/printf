@@ -10,8 +10,8 @@ int _printf(const char *format, ...)
 	int my_size = 0;
 	va_list my_pfargs;
 
-	if (format == NULL)
-		return -1;
+	if (format == NULL || (format[0] == '%' && format[1] == '\0'))
+		return (-1);
 
 	va_start(my_pfargs, format);
 
