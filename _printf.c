@@ -7,41 +7,53 @@
  */
 int _printf(const char *format, ...)
 {
-	int i;
 	int my_size = 0;
-	int count;
+	va_list my_pfargs;
 
-	va_list my_arguments;
+	if (format == NULL)
+		return -1;
 
-	if(format == NULL)
-		return (-1);
+	va_start(my_pfargs, format);
 
-	va_start(my_arguments, format);
-
-	for (i = 0; format[i] != '\0'; i++)
+	while (*format)
 	{
-		if (format[i] != '%')
+		if (*format != '%')
 		{
-			pucr(format[i]);
+			write(1, format, 1);
+			my_size++;
 		}
-		else if (format[i] == '%' && format[i + 1] == 'c')
+		else
 		{
-			pucr(va_arg(my_arguments, int));
-			i++;
-		}
-		else if (format[i] == '%' && format[i + 1] == 's')
-		{
-			count = insert(va_arg(my_arguments, char *));
-			i++;
-			my_size = (count - 1);
-		}
-		else if (format[i] == '%' && format[i + 1] == '%')
-		{
-			pucr('%');
+			format++;
+			if (*format == '\0')
+				break;
+			if (*format == '%')
+			{
+				write(1, format, 1);
+				my_size++;
+			}
+			else if (*format == 'c')
+			{
+				char n = va_arg(my_pfargs, int);
+				write(1, &n, 1);
+				my_size++;
+			}
+			else if (*format == 's')
+			{
+				char *mystr = va_arg(my_pfargs, char*);
+				int mystr_size = 0;
+
+				while (mystr[mystr_size] != '\0')
+					mystr_size++;
+
+				write(1, mystr, mystr_size);
+				my_size += mystr_size;
+			}
 		}
 
-		my_size += 1;
+		format++;
 	}
-	va_end(my_arguments);
-	return (my_size);
+	va_end(my_pfargs);
+
+	return my_size;
 }
