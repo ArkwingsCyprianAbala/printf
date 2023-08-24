@@ -42,11 +42,6 @@ int _printf(const char *format, ...)
 					mystr_size++;
 				write(1, mystr, mystr_size);
 				my_size += mystr_size;
-
-				if (mystr == NULL)
-				{
-					write(1, "(null)", 6);
-				}
 			}
 		}
 		format++;
