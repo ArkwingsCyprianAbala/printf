@@ -1,8 +1,8 @@
 #include "main.h"
 /**
- * pucr is used to print a character
+ * @pucr: print a character
  * @c: character input
- * Return 1
+ * Return: 1 on success
  */
 int pucr(char c)
 {
