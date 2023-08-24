@@ -1,13 +1,10 @@
 #include "main.h"
 /**
  *_printf - Printf function
- *@format: format
- *@const: constant
- *@Return value: return
  */
 int _printf(const char *format, ...)
 {
-	int my_size = 0;
+	int my_size = 0, mystr_size = 0;
 	va_list my_pfargs;
 
 	if (format == NULL || (format[0] == '%' && format[1] == '\0'))
@@ -40,12 +37,16 @@ int _printf(const char *format, ...)
 			else if (*format == 's')
 			{
 				char *mystr = va_arg(my_pfargs, char*);
-				int mystr_size = 0;
 
 				while (mystr[mystr_size] != '\0')
 					mystr_size++;
 				write(1, mystr, mystr_size);
 				my_size += mystr_size;
+
+				if (mystr == NULL)
+				{
+					write(1, "(null)", 6);
+				}
 			}
 		}
 		format++;
